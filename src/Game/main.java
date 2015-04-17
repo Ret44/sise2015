@@ -21,6 +21,11 @@ public class main {
 		
 		char input = 0;
 		int agentInd = 0;
+		
+		while(true){
+			if(dungeon.passTurn() != -1) break;
+		}
+		/*
 		while(input!='q')
 		{
 			try {
@@ -36,7 +41,7 @@ public class main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		System.out.println("Game terminated");
 	}
 	
