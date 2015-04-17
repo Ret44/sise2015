@@ -54,7 +54,29 @@ public class Dungeon {
 			}
 			Choice[] arr = new Choice[1];
 			int decision = agents[i].decide(choices.toArray(arr));
-			
+			switch(choices.get(decision)){
+			case MoveRight:
+				x++;
+				break;
+			case MoveUp:
+				y++;
+				break;
+			case MoveLeft:
+				x--;
+				break;
+			case MoveDown:
+				y--;
+				break;
+			case Search:
+				
+				break;
+			case PickUpItem:
+				
+				break;
+			}
+			agentPos[i][0] = x;
+			agentPos[i][1] = y;
+			// TODO combat
 		}
 		return -1; // no winners this turn
 	}
