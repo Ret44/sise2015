@@ -10,39 +10,17 @@ public class main {
 		
 		//Agent initialization
 		Agent[] agentList = new Agent[2];
-		for(int i=0;i<agentList.length;i++)
-			agentList[i] = new DummyAgent("Dummy"+i);
+		for(int i=0; i < agentList.length; i++)
+			agentList[i] = new RandomAgent();
 		
 		//Dungeon generation
-		dungeon = new Dungeon(10,10,agentList,true);
+		dungeon = new Dungeon(10, 10, agentList, true);
 		
-
-		System.out.println("Q-Exit | WSAD-Move Agent");
+		int winner = dungeon.play();
 		
-		char input = 0;
-		int agentInd = 0;
+		System.out.println("Battle ended in " + dungeon.getTurn());
+		System.out.println("Winner: " + agentList[winner].getName());
 		
-		while(true){
-			if(dungeon.passTurn() != -1) break;
-		}
-		/*
-		while(input!='q')
-		{
-			try {
-				
-				input = (char)System.in.read();		
-				
-				agentList[agentInd++].turn(input);	//Init turn logic for next agent
-				
-				if(agentInd>=agentList.length)
-					agentInd = 0;
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-		System.out.println("Game terminated");
 	}
 	
 

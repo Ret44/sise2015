@@ -2,32 +2,10 @@ package Game;
 
 import java.io.IOException;
 
-public class DummyAgent extends Agent{
-
-	
-	public DummyAgent()
-	{
-		this.Name = "Dummy";
-	}
-	
-	public DummyAgent(String name)
-	{
-		this.Name = name;
-	}
-	
-	@Override
-	public void turn(char input) {
-		switch(input)
-		{
-		case 'w' : System.out.println(this.Name+" moves up"); break;
-		case 's' : System.out.println(this.Name+" moves down"); break;
-		case 'a' : System.out.println(this.Name+" moves left"); break;
-		case 'd' : System.out.println(this.Name+" moves right"); break;
-		}
-	}
+public class DummyAgent implements Agent{
 
 	@Override
-	public int decide(Choice[] choices) {
+	public int decide(Choice[] choices, AgentStruct state) {
 		System.out.println("DECIDE!");
 		for(int i = 0; i < choices.length; ++i){
 			switch(choices[i]){
@@ -38,7 +16,7 @@ public class DummyAgent extends Agent{
 			case MoveLeft:
 				System.out.println("Press " + (i + 1) + " to moves left"); break;
 			case MoveDown:
-				System.out.println("Press " + (i + 1) + " to moves right"); break;
+				System.out.println("Press " + (i + 1) + " to moves down"); break;
 			case Search:
 				System.out.println("Press " + (i + 1) + " to search the chamber"); break;
 			case PickUpItem:
@@ -64,6 +42,11 @@ public class DummyAgent extends Agent{
 		}
 		
 		return 0;
+	}
+
+	@Override
+	public String getName() {
+		return "Player controlled agent";
 	}
 
 }
