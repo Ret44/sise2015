@@ -8,5 +8,9 @@ public class RandomAgent implements Agent {
 		Random r = new Random();
 		return r.nextInt(choices.length);
 	}
-
+	
+	@Override
+	public String getName(){
+		return "Random";
+	}
 }

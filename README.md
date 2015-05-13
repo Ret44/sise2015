@@ -1,5 +1,21 @@
 # sise2015
 ----------------------------
+Plan na 8.05
+Bartlomiej Sieczka - 
+Roman Chomik - pamięć agentów o ostatnich pokojach i akcjach
+Gniewomir Ciolek - ślady
+Adam Lukaszewicz - poprawki wyświetlania
+Tomek Wyroda - podłączenie jfuzzylogic i clipsjni, podpięcie pod agentów
+Dominik Bugala - 
+----------------------------
+Stan na 24.04
+Bartlomiej Sieczka - 
+Roman Chomik - Mechanika gry, poruszanie sie, przeszukiwanie pokoji
+Gniewomir Ciolek - Poprawiona generacja swiata
+Adam Lukaszewicz - Przedmioty, wizualizacja swiata gry
+Tomek Wyroda - 
+Dominik Bugala - 
+----------------------------
 Plan 23.04
 Bartlomiej Sieczka - Wstepna implementacja CLIPSJNI
 Roman Chomik - Mechanika gry, poruszanie sie, przeszukiwanie pokoji

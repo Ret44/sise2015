@@ -6,6 +6,7 @@ public class Dungeon {
 	private int width;
 	private int height;
 	private int turn;
+	private final int historyLength = 10;
 	private boolean verbose;
 
 	private Chamber[][] chambers;
@@ -92,7 +93,7 @@ public class Dungeon {
 		}
 		
 		Choice[] arr = new Choice[1];
-		choices.toArray(arr);
+		arr = choices.toArray(arr);
 		return arr;
 	}
 	
@@ -119,6 +120,13 @@ public class Dungeon {
 		case PickUpItem:
 			a.item = agentLoc.pickUpItem(a.item);
 			break;
+		}
+		
+		a.choiceHistory.add(decision);
+		a.chamberHistory.add(agentLoc.copy());
+		if(a.choiceHistory.size() > historyLength){
+			a.chamberHistory.pollLast();
+			a.choiceHistory.pollLast();
 		}
 		
 		if(dx != 0 || dy != 0){

@@ -15,4 +15,11 @@ public class Chamber {
 		itemLevel = currentItem;
 		return t;
 	}
+	
+	public Chamber copy(){
+		Chamber ret = new Chamber();
+		ret.itemLevel = itemLevel;
+		ret.connections = connections.clone();
+		return ret;
+	}
 }
