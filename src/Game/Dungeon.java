@@ -126,7 +126,47 @@ public class Dungeon {
 	}
 
 	private void presentWorld(){
-		// TODO do actual world presentation
+		for(int i=0;i<size;i++){
+			String line0 = "",line1 = "";
+			String line2 = "";
+			
+			for(int j=0;j<size;j++){
+				
+				String horizontal,horizontal2,vertical;
+				if(walls[i*2+1][j].connection){
+					vertical = " ";
+				}else{
+					vertical = "|";
+				}
+				
+				if(walls[(i+1)*2][j].connection){
+					horizontal2 = " ";
+				}else{
+					horizontal2 = "_";
+				}
+				if(i==0){
+					
+					line0 += " " + "_" + "_";
+				}
+				String itemLevel = null,track = null;
+				if(chambers[i][j].itemLevel == -1){
+					itemLevel = "0";
+				}
+				if(chambers[i][j].track == -1){
+					track = "0";
+				}
+				line1 += vertical + track + itemLevel;
+				line2 += vertical + horizontal2 + horizontal2;
+				
+			}
+			if(i==0){
+				System.out.println(line0);
+			}
+			line1+="|";
+			line2+="|";
+			System.out.println(line1);
+			System.out.println(line2);
+		}
 	}
 	
 	public int passTurn(){
