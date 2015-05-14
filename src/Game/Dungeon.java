@@ -148,7 +148,7 @@ public class Dungeon {
 					
 					line0 += " " + "_" + "_" + "_";
 				}
-				String itemLevel = null,track = null;
+				String itemLevel = null,track = null,agent = null;
 				itemLevel = "" + chambers[i][j].itemLevel;
 				track = "" + chambers[i][j].track;
 				if(chambers[i][j].itemLevel == -1){
@@ -157,7 +157,14 @@ public class Dungeon {
 				if(chambers[i][j].track == -1){
 					track = "0";
 				}
-				line1 += vertical + track + itemLevel ;
+				for(int k = 0;k<agentPos.length;k++){
+					if(agentPos[k][0] == j && agentPos[k][1] == i){
+						agent = "#";
+					}else{
+						agent = " ";
+					}
+				}
+				line1 += vertical + track + itemLevel + agent;
 				line2 += vertical + horizontal + horizontal + horizontal;
 				
 			}
