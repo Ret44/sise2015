@@ -144,16 +144,16 @@ public class Dungeon {
 			Choice[] arr = new Choice[1];
 			int decision = agents[i].decide(choices.toArray(arr));
 			switch(choices.get(decision)){
-			case MoveRight:
-				x++;
-				break;
 			case MoveUp:
+				chambers[x][y].track = 0;
 				y++;
 				break;
 			case MoveLeft:
+				chambers[x][y].track = 1;
 				x--;
 				break;
 			case MoveDown:
+				chambers[x][y].track = 3;
 				y--;
 				break;
 			case Search:
