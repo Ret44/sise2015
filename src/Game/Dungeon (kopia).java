@@ -132,7 +132,7 @@ public class Dungeon {
 			
 			for(int j=0;j<size;j++){
 				
-				String horizontal,vertical;
+				String horizontal,horizontal2,vertical;
 				if(walls[i*2+1][j].connection){
 					vertical = " ";
 				}else{
@@ -140,25 +140,23 @@ public class Dungeon {
 				}
 				
 				if(walls[(i+1)*2][j].connection){
-					horizontal = " ";
+					horizontal2 = " ";
 				}else{
-					horizontal = "_";
+					horizontal2 = "_";
 				}
 				if(i==0){
 					
-					line0 += " " + "_" + "_" + "_";
+					line0 += " " + "_" + "_";
 				}
 				String itemLevel = null,track = null;
-				itemLevel = "" + chambers[i][j].itemLevel;
-				track = "" + chambers[i][j].track;
 				if(chambers[i][j].itemLevel == -1){
 					itemLevel = "0";
 				}
 				if(chambers[i][j].track == -1){
 					track = "0";
 				}
-				line1 += vertical + track + itemLevel ;
-				line2 += vertical + horizontal + horizontal + horizontal;
+				line1 += vertical + track + itemLevel;
+				line2 += vertical + horizontal2 + horizontal2;
 				
 			}
 			if(i==0){
