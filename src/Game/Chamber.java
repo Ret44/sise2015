@@ -5,6 +5,9 @@ public class Chamber {
 	public int itemLevel = -1;
 	public boolean checked = false;
 	public short track = -1;//0 up, 1 left,2 right, 3 down
+	
+	public Chamber(){}
+	
 	public Chamber(Wall up,Wall left,Wall right,Wall down){
 		connections[0] = up;
 		connections[1] = left;
@@ -16,5 +19,12 @@ public class Chamber {
 		int t = itemLevel;
 		itemLevel = currentItem;
 		return t;
+	}
+	
+	public Chamber copy(){
+		Chamber ret = new Chamber();
+		ret.itemLevel = itemLevel;
+		ret.connections = connections.clone();
+		return ret;
 	}
 }

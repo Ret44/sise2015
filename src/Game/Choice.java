@@ -1,10 +1,10 @@
 package Game;
 
 public enum Choice {
-	MoveRight,
-	MoveUp,
 	MoveLeft,
 	MoveDown,
+	MoveRight,
+	MoveUp,
 	Search,
 	PickUpItem
 }
