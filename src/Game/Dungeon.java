@@ -51,33 +51,33 @@ public class Dungeon {
 			Chamber pokoj = chambers[x][y];
 			pokoj.checked = true;
 			if(x == 0){
-				pokoj.connections[0].connection = false;
+				chambers[x][y].connections[0].connection = false;
 			}
 			if(x == size -1){
-				pokoj.connections[3].connection = false;
+				chambers[x][y].connections[3].connection = false;
 			}
 			if(y == 0){
-				pokoj.connections[1].connection = false;
+				chambers[x][y].connections[1].connection = false;
 			}
 			if(y == size -1){
-				pokoj.connections[2].connection = false;
+				chambers[x][y].connections[2].connection = false;
 			}
-			if(pokoj.connections[0].connection){
+			if(chambers[x][y].connections[0].connection){
 				if(!chambers[x-1][y].checked){
 					checkers.add(new Checker(x-1,y));
 				}
 			}
-			if(pokoj.connections[3].connection){
+			if(chambers[x][y].connections[3].connection){
 				if(!chambers[x+1][y].checked){
 					checkers.add(new Checker(x+1,y));
 				}
 			}
-			if(pokoj.connections[1].connection){
+			if(chambers[x][y].connections[1].connection){
 				if(!chambers[x][y-1].checked){
 					checkers.add(new Checker(x,y-1));
 				}
 			}
-			if(pokoj.connections[2].connection){
+			if(chambers[x][y].connections[2].connection){
 				if(!chambers[x][y+1].checked){
 					checkers.add(new Checker(x,y+1));
 				}
@@ -141,13 +141,13 @@ public class Dungeon {
 			for(int j=0;j<size;j++){
 				
 				String horizontal,vertical;
-				if(walls[i*2+1][j].connection){
+				if(chambers[i][j].connections[1].connection){
 					vertical = " ";
 				}else{
 					vertical = "|";
 				}
 				
-				if(walls[(i+1)*2][j].connection){
+				if(chambers[i][j].connections[3].connection){
 					horizontal = " ";
 				}else{
 					horizontal = "_";
@@ -166,7 +166,7 @@ public class Dungeon {
 					track = "0";
 				}
 				for(int k = 0; k < agents.length; k++){
-					if(agents[k].x == j && agents[k].y == i){
+					if(agents[k].x == i && agents[k].y == j){
 						agent = "#";
 					}else{
 						agent = " ";
@@ -192,7 +192,7 @@ public class Dungeon {
 			if(verbose) presentWorld();
 			
 			AgentStruct a = agents[i];
-			
+			System.out.println(a.x + " " + a.y);
 			Choice[] choices = getChoices(a);
 			
 			Choice decision = choices[a.agent.decide(choices, a.copy())];
@@ -239,16 +239,16 @@ public class Dungeon {
 		int dy = 0;
 		switch(decision){
 		case MoveRight:
-			dx++;
-			break;
-		case MoveUp:
 			dy++;
 			break;
-		case MoveLeft:
+		case MoveUp:
 			dx--;
 			break;
-		case MoveDown:
+		case MoveLeft:
 			dy--;
+			break;
+		case MoveDown:
+			dx++;
 			break;
 		case Search:
 			a.searchedRoom = true;

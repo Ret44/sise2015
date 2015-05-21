@@ -9,12 +9,12 @@ public class DummyAgent implements Agent{
 		System.out.println("DECIDE!");
 		for(int i = 0; i < choices.length; ++i){
 			switch(choices[i]){
-			case MoveRight:
-				System.out.println("Press " + (i + 1) + " to moves right"); break;
 			case MoveUp:
 				System.out.println("Press " + (i + 1) + " to moves up"); break;
 			case MoveLeft:
 				System.out.println("Press " + (i + 1) + " to moves left"); break;
+			case MoveRight:
+				System.out.println("Press " + (i + 1) + " to moves right"); break;
 			case MoveDown:
 				System.out.println("Press " + (i + 1) + " to moves down"); break;
 			case Search:
@@ -31,6 +31,7 @@ public class DummyAgent implements Agent{
 				int decision = input - '1';
 				
 				if(decision >= 0 && decision < choices.length){
+					System.out.println(decision);
 					return decision;
 				}else{
 					System.out.println("Wrong choice."); break;
