@@ -9,7 +9,7 @@ public class main {
 	public static void main(String[] args) {
 		
 		//Agent initialization
-		Agent[] agentList = new Agent[1];
+		Agent[] agentList = new Agent[2];
 		for(int i=0;i<agentList.length;i++)
 			agentList[i] = new DummyAgent();
 		

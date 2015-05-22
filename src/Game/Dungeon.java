@@ -21,11 +21,12 @@ public class Dungeon {
 		chambers = new Chamber[size][size];
 		this.size = size;
 		this.agents = new AgentStruct[agents.length];
+		Random rand = new Random();
 		for(int i = 0; i < agents.length; ++i){
 			AgentStruct a = new AgentStruct();
 			a.agent = agents[i];
-			a.x = 0; // TODO set a random position or something
-			a.y = 0;
+			a.x = rand.nextInt(size);
+			a.y = rand.nextInt(size);
 			a.searchedRoom = false;
 			a.item = 0;
 			a.agentID = i;
@@ -172,7 +173,7 @@ public class Dungeon {
 					
 					line0 += " " + "_" + "_" + "_";
 				}
-				String itemLevel = null,track = null,agent = null;
+				String itemLevel = null,track = null,agent = "";
 				itemLevel = "" + chambers[i][j].itemLevel;
 
 				if(chambers[i][j].trail == null){
@@ -183,13 +184,13 @@ public class Dungeon {
 				if(chambers[i][j].itemLevel == -1){
 					itemLevel = "0";
 				}
+				char ag = ' ';
 				for(int k = 0; k < agents.length; k++){
 					if(agents[k].x == i && agents[k].y == j){
-						agent = "#";
-					}else{
-						agent = " ";
+						ag = ((char)('#' + k));
 					}
 				}
+				agent += "" + ag;
 				line1 += vertical + track + itemLevel + agent;
 				line2 += vertical + horizontal + horizontal + horizontal;
 				

@@ -7,7 +7,7 @@ public class DummyAgent implements Agent{
 
 	@Override
 	public int decide(Choice[] choices, AgentStruct state) {
-		System.out.println("DECIDE!");
+		System.out.println("" + (char)('#' + state.agentID) + "DECIDE!");
 		for(int i = 0; i < choices.length; ++i){
 			switch(choices[i]){
 			case MoveRight:

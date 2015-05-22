@@ -20,6 +20,7 @@ public class AgentStruct {
 		c.agent = agent;
 		c.choiceHistory = choiceHistory.clone();
 		c.chamberHistory = chamberHistory.clone();
+		c.agentID = agentID;
 		return c;
 	}
 }
