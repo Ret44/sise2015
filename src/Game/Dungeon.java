@@ -39,8 +39,23 @@ public class Dungeon {
 		create_walls();
 		add_rooms();
 		destroy_walls();
+		generate_items(10);
 	}
 	
+	private void generate_items(int n) {
+		Random rand = new Random();
+		int x,y;
+		for(int j = 1;j<n;j++){
+			x = rand.nextInt(size);
+			y = rand.nextInt(size);
+			if(chambers[x][y].itemLevel > 0){
+				j--;
+			}else{
+				chambers[x][y].itemLevel = j;
+			}
+		}
+	}
+
 	private void destroy_walls() {
 		if(!chambers[0][0].checked){
 			checkers.add(new Checker(0,0));
