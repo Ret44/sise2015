@@ -4,7 +4,7 @@ public class Chamber {
 	public Wall[] connections = new Wall[4];
 	public int itemLevel = -1;
 	public boolean checked = false;
-	public short track = -1;//0 up, 1 left,2 right, 3 down
+	public Trail trail = null;
 	
 	public Chamber(){}
 	

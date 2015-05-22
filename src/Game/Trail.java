@@ -1,20 +1,14 @@
 package Game;
 
 public class Trail {
-	private int age;
-	private int direction;
-	// TODO insert player class name
-	//public Whatever player;
+	public int age;
+	public int direction;
+	public int agentID;
 	
-	public int getAge() {
-		return age;
-	}
-	
-	public void setAge(int age) {
+	public Trail(int age, int direction, int agentID) {
+		super();
 		this.age = age;
-	}
-	
-	public int getDirection() {
-		return direction;
+		this.direction = direction;
+		this.agentID = agentID;
 	}
 }
