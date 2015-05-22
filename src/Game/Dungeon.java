@@ -28,6 +28,7 @@ public class Dungeon {
 			a.y = 0;
 			a.searchedRoom = false;
 			a.item = 0;
+			a.agentID = i;
 			this.agents[i] = a;
 		}
 		
@@ -173,12 +174,14 @@ public class Dungeon {
 				}
 				String itemLevel = null,track = null,agent = null;
 				itemLevel = "" + chambers[i][j].itemLevel;
-				track = "" + chambers[i][j].track;
+
+				if(chambers[i][j].trail == null){
+					track = "0";
+				}else{
+					track = "" + chambers[i][j].trail.age;
+				}
 				if(chambers[i][j].itemLevel == -1){
 					itemLevel = "0";
-				}
-				if(chambers[i][j].track == -1){
-					track = "0";
 				}
 				for(int k = 0; k < agents.length; k++){
 					if(agents[k].x == i && agents[k].y == j){
@@ -204,6 +207,17 @@ public class Dungeon {
 	public int play(){
 		int i = 0;
 		while(true){
+			for(int x = 0; x < size; ++x){
+				for(int y = 0; y < size; ++y){
+					Chamber c = chambers[x][y];
+					if(c.trail != null && c.trail.agentID == i){
+						--c.trail.age;
+						if(c.trail.age <= 0){
+							c.trail = null;
+						}
+					}
+				}
+			}
 			if(verbose) presentWorld();
 			
 			AgentStruct a = agents[i];
@@ -252,18 +266,23 @@ public class Dungeon {
 		Chamber agentLoc = chambers[a.x][a.y];
 		int dx = 0;
 		int dy = 0;
+		int dir = -1;
 		switch(decision){
 		case MoveRight:
 			dy++;
+			dir = 0;
 			break;
 		case MoveUp:
 			dx--;
+			dir = 1;
 			break;
 		case MoveLeft:
 			dy--;
+			dir = 2;
 			break;
 		case MoveDown:
 			dx++;
+			dir = 3;
 			break;
 		case Search:
 			a.searchedRoom = true;
@@ -281,6 +300,7 @@ public class Dungeon {
 		}
 		
 		if(dx != 0 || dy != 0){
+			agentLoc.trail = new Trail(historyLength, dir, a.agentID);
 			a.x += dx;
 			a.y += dy;
 			a.searchedRoom = false;

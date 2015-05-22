@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 public class AgentStruct {
 	public int item;
 	public int x, y;
+	public int agentID;
 	public boolean searchedRoom;
 	public Agent agent;
 	public ArrayDeque<Choice> choiceHistory = new ArrayDeque<Choice>();
