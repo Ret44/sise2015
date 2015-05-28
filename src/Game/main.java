@@ -10,8 +10,8 @@ public class main {
 		
 		//Agent initialization
 		Agent[] agentList = new Agent[2];
-		for(int i=0;i<agentList.length;i++)
-			agentList[i] = new DummyAgent();
+		agentList[0] = new DummyAgent();
+		agentList[1] = new FuzzyAgent("test.flc");
 		
 		//Dungeon generation
 		dungeon = new Dungeon(10, agentList, true);
