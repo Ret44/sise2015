@@ -7,11 +7,13 @@ public class main {
 	private static Dungeon dungeon;
 	
 	public static void main(String[] args) {
-		
+		System.load(System.getProperty("user.dir")+"\\CLIPSJNI.dll");
 		//Agent initialization
-		Agent[] agentList = new Agent[2];
-		agentList[0] = new DummyAgent();
-		agentList[1] = new FuzzyAgent("test.flc");
+		Agent[] agentList = new Agent[1];
+		//agentList[0] = new DummyAgent();
+		//agentList[1] = new FuzzyAgent("test.flc");
+		agentList[0] = new CLIPSAgent("test_clips.clp");
+		
 		
 		//Dungeon generation
 		dungeon = new Dungeon(10, agentList, true);
