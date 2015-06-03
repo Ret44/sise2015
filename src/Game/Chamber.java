@@ -25,6 +25,7 @@ public class Chamber {
 		Chamber ret = new Chamber();
 		ret.itemLevel = itemLevel;
 		ret.connections = connections.clone();
+		ret.trail = trail;
 		return ret;
 	}
 }

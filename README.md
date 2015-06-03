@@ -29,6 +29,17 @@ Bartlomiej Sieczka - Interakcja uzytkownika z agentem
 Roman Chomik - Struktura swiata gry
 Gniewomir Ciolek - Generacja swiata
 ----------------------------
+Stan na 3.06
+Bartlomiej Sieczka - Większość faktów o stanie agenta i jego otoczenia przekazana do CLIPSA
+Roman Chomik - Część faktów przekazana do logiki rozmytej
+Gniewomir Ciolek - Implementacja mechaniki pozostawiania śladów przez agentów
+Tomek Wyroda - ?
+----------------------------
+Plan na 12.06
+Bartlomiej Sieczka - Finalizacja budowania bazy wiedzy CLIPSA, prace nad własnymi agentami
+Roman Chomik - Finalizacja ustawiania zmiennych rozmytych, prace nad własnymi agentami
+Gniewomir Ciolek - prace nad własnymi agentami
+Tomek Wyroda - ?, prace nad własnymi agentami
 
 
 Koncept:
