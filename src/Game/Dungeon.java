@@ -20,6 +20,7 @@ public class Dungeon {
 	public Dungeon(int size, Agent[] agents, boolean verbose){
 		chambers = new Chamber[size][size];
 		this.size = size;
+		generateWorld();
 		this.agents = new AgentStruct[agents.length];
 		Random rand = new Random();
 		for(int i = 0; i < agents.length; ++i){
@@ -30,11 +31,11 @@ public class Dungeon {
 			a.searchedRoom = false;
 			a.item = 0;
 			a.agentID = i;
+			a.currentRoom = chambers[a.x][a.y];
 			this.agents[i] = a;
 		}
 		
 		this.verbose = verbose;
-		generateWorld();
 	}
 	
 	private void generateWorld(){
@@ -224,7 +225,7 @@ public class Dungeon {
 			AgentStruct a = agents[i];
 			System.out.println(a.x + " " + a.y);
 			Choice[] choices = getChoices(a);
-			
+
 			Choice decision = choices[a.agent.decide(choices, a.copy())];
 			
 			int result = executeDecision(a, decision);
@@ -305,6 +306,7 @@ public class Dungeon {
 			a.x += dx;
 			a.y += dy;
 			a.searchedRoom = false;
+			a.currentRoom = chambers[a.x][a.y];
 			return resolveCombat(a.x,  a.y);
 		}else{
 			return -1;

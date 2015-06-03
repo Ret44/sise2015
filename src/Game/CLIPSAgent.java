@@ -13,6 +13,7 @@ public class CLIPSAgent implements Agent {
 	public CLIPSAgent(String filename){
 		this.filename = filename;
 		clips = new Environment();
+		clips.load("templates.CLP");
 		clips.load(filename);
 		reset();
 	}
@@ -67,11 +68,30 @@ public class CLIPSAgent implements Agent {
 		clips.eval("(bind ?*agentID* "+state.agentID+")");
 		clips.eval("(bind ?*pos-x* "+state.x+")");
 		clips.eval("(bind ?*pos-y* "+state.y+")");
+		String chamberString;
+		
+		chamberString = "(chamber";
+		chamberString+=" (index 0)";
+		chamberString+=" (item-level "+state.currentRoom.itemLevel+")";
+		chamberString+=" (checked "+(state.currentRoom.checked?"true":"false")+")";
+		if(state.currentRoom.trail!=null) chamberString+=" (trail "+state.currentRoom.trail.age+" "+state.currentRoom.trail.direction+" "+state.currentRoom.trail.agentID+")";
+		else chamberString+= " (trail none)";
+		chamberString+=" (connections ";
+		for(int i=0;i<4;i++)
+		{
+			chamberString+= " "+state.currentRoom.connections[i].connection;
+		}
+		chamberString+="))";
+		System.out.print(chamberString);
+		clips.assertString(chamberString);
 	
-		Iterator<Chamber> chamberIt = state.chamberHistory.iterator();		
+	
+		Iterator<Chamber> chamberIt = state.chamberHistory.iterator();
+		int index = 1;
 		while(chamberIt.hasNext()){
 			Chamber chamber = chamberIt.next();
-			String chamberString = "(previous-chamber";
+			chamberString = "(chamber";
+			chamberString+=" (index "+(index++)+")";
 			chamberString+=" (item-level "+chamber.itemLevel+")";
 			chamberString+=" (checked "+(chamber.checked?"true":"false")+")";
 			if(chamber.trail!=null) chamberString+=" (trail "+chamber.trail.age+" "+chamber.trail.direction+" "+chamber.trail.agentID+")";
@@ -86,7 +106,7 @@ public class CLIPSAgent implements Agent {
 		}
 		
 		Iterator<Choice> choiceIt = state.choiceHistory.iterator();
-		int index = 1;
+		index = 1;
 		while(choiceIt.hasNext())
 		{
 			Choice choice = choiceIt.next();
@@ -96,7 +116,7 @@ public class CLIPSAgent implements Agent {
 			clips.assertString(choiceString);
 		}
 		
-		printAll();
+		//printAll();
 		
 		
 		clips.run();

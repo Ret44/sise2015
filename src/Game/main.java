@@ -12,7 +12,7 @@ public class main {
 		Agent[] agentList = new Agent[1];
 		//agentList[0] = new DummyAgent();
 		//agentList[1] = new FuzzyAgent("test.flc");
-		agentList[0] = new CLIPSAgent("test_clips.clp");
+		agentList[0] = new CLIPSAgent("agent_bs.clp");
 		
 		
 		//Dungeon generation

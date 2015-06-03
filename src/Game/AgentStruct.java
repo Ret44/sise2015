@@ -7,6 +7,7 @@ public class AgentStruct {
 	public int x, y;
 	public int agentID;
 	public boolean searchedRoom;
+	public Chamber currentRoom;
 	public Agent agent;
 	public ArrayDeque<Choice> choiceHistory = new ArrayDeque<Choice>();
 	public ArrayDeque<Chamber> chamberHistory = new ArrayDeque<Chamber>();
@@ -21,6 +22,7 @@ public class AgentStruct {
 		c.choiceHistory = choiceHistory.clone();
 		c.chamberHistory = chamberHistory.clone();
 		c.agentID = agentID;
+		c.currentRoom = currentRoom;
 		return c;
 	}
 }
