@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class DummyAgent implements Agent{
 
 	@Override
-	public int decide(Choice[] choices, AgentStruct state) {
+	public int decide(Choice[] choices, AgentStruct state, int historyLength, int itemLevel, int turn) {
 		System.out.println("" + (char)('#' + state.agentID) + "DECIDE!");
 		for(int i = 0; i < choices.length; ++i){
 			switch(choices[i]){

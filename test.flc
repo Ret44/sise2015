@@ -1,9 +1,14 @@
 FUNCTION_BLOCK agent
 
 VAR_INPUT
-	action : REAL;
-	previousAction : REAL;
-	power : REAL;
+	action : REAL; (* wyt³umaczone ni¿ej *)
+	previousAction : REAL; (* jw *)
+	power : REAL; (* nasza si³a od 0 - max przedmiot *)
+	wasHere : REAL; (* 0 - raczej nie, 1 - tak *)
+	trail : REAL; (* -1 nie ma, 0 nasz œlad, 1 czyjœ *)
+	trailDirection : REAL; (* -1 nie ma, inaczej kierunek 0>, 1^, 2<, 3v *)
+	trailAge : REAL; (* 0 œwie¿y, 1 stary *)
+	wasHere : REAL; (* jak dawno temu tu byliœmy, 0 dziœ, 1 dawno temu, 2 nigdy *)
 END_VAR
 
 VAR_OUTPUT

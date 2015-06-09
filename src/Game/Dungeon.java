@@ -6,20 +6,24 @@ public class Dungeon {
 	private int size;
 	private int turn;
 	private boolean verbose;
-	private final int historyLength = 10;
+	private int historyLength = 10;
+	private int itemLevel;
 	
 	private Wall[][] walls; 
 	private Chamber[][] chambers;
 	private AgentStruct[] agents;
 	private ArrayList<Checker> checkers = new ArrayList<Checker>();
 	
-	public Dungeon(int size, Agent[] agents){
-		this(size, agents, false);
+	public Dungeon(int size, int historyLength, int itemLevel, Agent[] agents){
+		this(size, historyLength, itemLevel, agents, false);
 	}
 	
-	public Dungeon(int size, Agent[] agents, boolean verbose){
+	public Dungeon(int size, int historyLength, int itemLevel, Agent[] agents, boolean verbose){
 		chambers = new Chamber[size][size];
 		this.size = size;
+		this.itemLevel = itemLevel;
+		this.historyLength = historyLength;
+		
 		generateWorld();
 		this.agents = new AgentStruct[agents.length];
 		Random rand = new Random();
@@ -42,7 +46,7 @@ public class Dungeon {
 		create_walls();
 		add_rooms();
 		destroy_walls();
-		generate_items(10);
+		generate_items(itemLevel);
 	}
 	
 	private void generate_items(int n) {
@@ -226,7 +230,7 @@ public class Dungeon {
 			System.out.println(a.x + " " + a.y);
 			Choice[] choices = getChoices(a);
 
-			Choice decision = choices[a.agent.decide(choices, a.copy())];
+			Choice decision = choices[a.agent.decide(choices, a.copy(), historyLength, itemLevel, turn)];
 			
 			int result = executeDecision(a, decision);
 			if(result >= 0){

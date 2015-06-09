@@ -16,7 +16,7 @@ public class main {
 		
 		
 		//Dungeon generation
-		dungeon = new Dungeon(10, agentList, true);
+		dungeon = new Dungeon(10, 10, 10, agentList, true);
 		
 
 		System.out.println("Q-Exit | WSAD-Move Agent");
