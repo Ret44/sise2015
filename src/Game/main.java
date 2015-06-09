@@ -8,21 +8,17 @@ public class main {
 	
 	public static void main(String[] args) {
 		System.load(System.getProperty("user.dir")+"\\CLIPSJNI.dll");
-		//Agent initialization
-		Agent[] agentList = new Agent[1];
-		//agentList[0] = new DummyAgent();
-		//agentList[1] = new FuzzyAgent("test.flc");
-		agentList[0] = new CLIPSAgent("agent_bs.clp");
 		
+		//Agent initialization
+		Agent[] agentList = new Agent[2];
+		agentList[0] = new FuzzyAgent("RomanChomik.flc");
+		agentList[1] = new CLIPSAgent("RomanChomik.clp");
 		
 		//Dungeon generation
 		dungeon = new Dungeon(10, 10, 10, agentList, true);
 		
 
 		System.out.println("Q-Exit | WSAD-Move Agent");
-		
-		char input = 0;
-		int agentInd = 0;
 		
 		int res = dungeon.play();
 		
