@@ -4,7 +4,7 @@
 	(assert (IWas ?*pos-x* ?*pos-y* 0))
 )
 
-(defrule wasIUp
+(defrule goingUp
 	(IWas ?x ?y ?ago)
 	(previous-choice (index ?ind) (choice MoveDown))
 	(test (eq ?ago (- ?ind 1)))
@@ -12,7 +12,7 @@
 	(assert (IWas ?x (+ ?y 1) ?ind))
 )
 
-(defrule wasIDown
+(defrule goingDown
 	(IWas ?x ?y ?ago)
 	(previous-choice (index ?ind) (choice MoveUp))
 	(test (eq ?ago (- ?ind 1)))
@@ -20,7 +20,7 @@
 	(assert (IWas ?x (- ?y 1) ?ind))
 )
 
-(defrule wasILeft
+(defrule goingLeft
 	(IWas ?x ?y ?ago)
 	(previous-choice (index ?ind) (choice MoveRight))
 	(test (eq ?ago (- ?ind 1)))
@@ -28,7 +28,7 @@
 	(assert (IWas (- ?x 1) ?y ?ind))
 )
 
-(defrule wasIRight
+(defrule goingRight
 	(IWas ?x ?y ?ago)
 	(previous-choice (index ?ind) (choice MoveLeft))
 	(test (eq ?ago (- ?ind 1)))
@@ -36,7 +36,7 @@
 	(assert (IWas (+ ?x 1) ?y ?ind))
 )
 
-(defrule wasIHere
+(defrule staying
 	(IWas ?x ?y ?ago)
 	(previous-choice (index ?ind) (choice Search|PickUp))
 	(test (eq ?ago (- ?ind 1)))
@@ -63,9 +63,42 @@
 	(bind ?*decision PickUpItem)
 )
 
+(defrule test1
+	(IWas ?x ?y ~0)
+	(test (eq ?x ?*pos-x*))
+	(test (eq ?y (+ ?*pos-y* 1)))
+	=>
+	(assert (IWas MoveDown))
+)
+
+(defrule test2
+	(IWas ?x ?y ~0)
+	(test (eq ?x ?*pos-x*))
+	(test (eq ?y (- ?*pos-y* 1)))
+	=>
+	(assert (IWas MoveUp))
+)
+
+(defrule test3
+	(IWas ?x ?y ~0)
+	(test (eq ?x (+ ?*pos-x* 1)))
+	(test (eq ?y ?*pos-y*))
+	=>
+	(assert (IWas MoveLeft))
+)
+
+(defrule test4
+	(IWas ?x ?y ~0)
+	(test (eq ?x (- ?*pos-x* 1)))
+	(test (eq ?y ?*pos-y*))
+	=>
+	(assert (IWas MoveRight))
+)
+
 (defrule move
 	(not (decision-was-made))
 	(can-move ?dir)
+	(not (IWas ?dir))
 	=>
 	(assert (decision-was-made))
 	(bind ?*decision* ?dir)
