@@ -82,7 +82,7 @@ public class CLIPSAgent implements Agent {
 			chamberString+= " "+state.currentRoom.connections[i].connection;
 		}
 		chamberString+="))";
-		System.out.print(chamberString);
+		//System.out.print(chamberString);
 		clips.assertString(chamberString);
 	
 	
@@ -120,17 +120,18 @@ public class CLIPSAgent implements Agent {
 		
 		
 		clips.run();
-		  String evalStr = "?*decision*";
-	      PrimitiveValue pv = clips.eval(evalStr);
-	      clips.reset();
-	      try {
-			System.out.println(pv.toString());
+		printAll();
+		String evalStr = "?*decision*";
+		PrimitiveValue pv = clips.eval(evalStr);
+		clips.reset();
+		try {
+			//System.out.println(pv.toString());
 			return Arrays.asList(choices).indexOf(Choice.valueOf(pv.toString()));
-	      } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+		// TODO Auto-generated catch block
+		//e.printStackTrace();
 			return 0;
-	      }   
+		}   
 	     
 	}
 

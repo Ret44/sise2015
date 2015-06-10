@@ -11,6 +11,7 @@ VAR_INPUT
 	wasHere : REAL; (* jak dawno temu tu byliœmy, 0 dziœ, 1 dawno temu, 2 nigdy *)
 	turn : REAL; (* która tura *)
 	itemInRoom : REAL; (* poziom przedmiotu w pokoju 0 - 1 *)
+	lastMove : REAL; (* ostatni kierunek ruchu *)
 END_VAR
 
 VAR_OUTPUT

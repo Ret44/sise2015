@@ -15,7 +15,6 @@ public class FuzzyAgent implements Agent {
 	public int decide(Choice[] choices, AgentStruct state, int historyLength, int itemLevel, int turn) {
 		FIS fis = FIS.load(filename, true);
 		
-
 		double max = 0;
 		int index = 0;
 
@@ -57,19 +56,33 @@ public class FuzzyAgent implements Agent {
 			fis.setVariable("wasHere", 2);
 		}
 		
+		
+		Choice[] cho = new Choice[0];
+		cho = state.choiceHistory.toArray(cho);
+		fis.setVariable("lastMove", -1);
+		for(int i = cho.length-1; i >= 0; --i){
+			if(cho[i].ordinal() <= 3){
+				fis.setVariable("lastMove", cho[i].ordinal());
+				//System.out.println("LastMove: " + cho[i]);
+				break;
+			}
+		}
+		
+		
 		for(int i = 0; i < choices.length; ++i){
 			fis.setVariable("action", (double) choices[i].ordinal());
 			
 			fis.evaluate();
 			
 			double val = fis.getVariable("idea").getLatestDefuzzifiedValue();
+			//System.out.println(choices[i].toString() + ": " + val);
 			if(val > max){
 				max = val;
 				index = i;
 			}
 		}
 		
-		System.out.println("AI choice: " + choices[index]);
+		//System.out.println("AI choice: " + choices[index]);
 		//JFuzzyChart.get().chart(fis.getFunctionBlock("tipper"));
 		turn++;
 		return index;

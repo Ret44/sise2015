@@ -224,10 +224,18 @@ public class Dungeon {
 					}
 				}
 			}
-			if(verbose) presentWorld();
+			if(verbose) {
+				presentWorld();
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+			}
 			
 			AgentStruct a = agents[i];
-			System.out.println(a.x + " " + a.y);
+			//System.out.println(a.x + " " + a.y);
 			Choice[] choices = getChoices(a);
 
 			Choice decision = choices[a.agent.decide(choices, a.copy(), historyLength, itemLevel, turn)];
@@ -301,8 +309,8 @@ public class Dungeon {
 		a.choiceHistory.add(decision);
 		a.chamberHistory.add(agentLoc.copy());
 		if(a.choiceHistory.size() > historyLength){
-			a.chamberHistory.pollLast();
-			a.choiceHistory.pollLast();
+			a.chamberHistory.pollFirst();
+			a.choiceHistory.pollFirst();
 		}
 		
 		if(dx != 0 || dy != 0){

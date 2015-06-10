@@ -10,9 +10,9 @@ public class main {
 		System.load(System.getProperty("user.dir")+"\\CLIPSJNI.dll");
 		
 		//Agent initialization
-		Agent[] agentList = new Agent[2];
-		agentList[0] = new FuzzyAgent("RomanChomik.flc");
-		agentList[1] = new CLIPSAgent("RomanChomik.clp");
+		Agent[] agentList = new Agent[1];
+		//agentList[0] = new FuzzyAgent("RomanChomik.flc");
+		agentList[0] = new CLIPSAgent("RomanChomik.clp");
 		
 		//Dungeon generation
 		dungeon = new Dungeon(10, 10, 10, agentList, true);
