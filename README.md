@@ -1,5 +1,14 @@
 # sise2015
 ----------------------------
+Stan na 12.06
+Bartlomiej Sieczka - Dopracowywanie bazy wiedzy CLIPS
+Roman Chomik - Zakończenie przekazywania zmiennych do logiki rozmytej, prace nad własną SI
+Gniewomir Ciolek - Nic
+Tomek Wyroda - ?
+----------------------------
+Plan na 19.06
+Wszyscy - własna SI
+----------------------------
 Stan na 3.06
 Bartlomiej Sieczka - Większość faktów o stanie agenta i jego otoczenia przekazana do CLIPSA
 Roman Chomik - Część faktów przekazana do logiki rozmytej
