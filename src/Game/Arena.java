@@ -1,5 +1,9 @@
 package Game;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Vector;
 
 public class Arena {
@@ -46,7 +50,25 @@ public class Arena {
 		}
 	}
 	
-	public void SaveResults(){
+	public void SaveResults(String filename){
+		try {
+			File file = new File(filename);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			for(int i = 0; i < contestants.size(); ++i){
+				AgentStats c = contestants.get(i);
+				writer.write(c.agent.getName());
+				writer.write('\n');
+				writer.write(c.wins + " wins");
+				writer.write('\n');
+				writer.write(c.draws + " draws");
+				writer.write('\n');
+				writer.write(c.loses + " loses");
+				writer.write('\n');
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
