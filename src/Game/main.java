@@ -10,11 +10,11 @@ public class main {
 		System.load(System.getProperty("user.dir")+"\\CLIPSJNI.dll");
 
 		//Arena.TestAgent(new FuzzyAgent("RomanChomik.flc"));
-		Arena.TestAgent(new CLIPSAgent("RomanChomik.clp"));
+		//Arena.TestAgent(new CLIPSAgent("RomanChomik.clp", true));
 		//Arena.TestAgent(new FuzzyAgent("agent_bs.flc"));
 		//Arena.TestAgent(new CLIPSAgent("agent_bs.CLP"));
 		
-		/*Arena arena = new Arena();
+		Arena arena = new Arena();
 		arena.AddAgent(new FuzzyAgent("RomanChomik.flc"));
 		arena.AddAgent(new CLIPSAgent("RomanChomik.clp"));
 		//arena.AddAgent(new FuzzyAgent("agent_bs.flc"));

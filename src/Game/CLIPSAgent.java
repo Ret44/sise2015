@@ -1,6 +1,6 @@
 package Game;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.*;
 
 import CLIPSJNI.*;
@@ -9,13 +9,19 @@ public class CLIPSAgent implements Agent {
 
 	public Environment clips;
 	private String filename;
+	private boolean debug; 
 	
-	public CLIPSAgent(String filename){
+	public CLIPSAgent(String filename, boolean debug){
 		this.filename = filename;
 		clips = new Environment();
 		clips.load("templates.CLP");
 		clips.load(filename);
 		reset();
+		this.debug = debug;
+	}
+	
+	public CLIPSAgent(String filename){
+		this(filename, false);
 	}
 
 	public void reset()
@@ -86,7 +92,7 @@ public class CLIPSAgent implements Agent {
 		clips.assertString(chamberString);
 	
 	
-		Iterator<Chamber> chamberIt = state.chamberHistory.iterator();
+		Iterator<Chamber> chamberIt = state.chamberHistory.descendingIterator();
 		int index = 1;
 		while(chamberIt.hasNext()){
 			Chamber chamber = chamberIt.next();
@@ -105,7 +111,7 @@ public class CLIPSAgent implements Agent {
 			clips.assertString(chamberString);
 		}
 		
-		Iterator<Choice> choiceIt = state.choiceHistory.iterator();
+		Iterator<Choice> choiceIt = state.choiceHistory.descendingIterator();
 		index = 1;
 		while(choiceIt.hasNext())
 		{
@@ -116,20 +122,29 @@ public class CLIPSAgent implements Agent {
 			clips.assertString(choiceString);
 		}
 		
-		//printAll();
-		
-		
 		clips.run();
-		//printAll();
+		
 		String evalStr = "?*decision*";
 		PrimitiveValue pv = clips.eval(evalStr);
+		
+		if(debug){
+			printAll();
+			System.out.println(pv);
+			try {
+				System.in.read();
+				System.in.skip(100);				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		clips.reset();
 		try {
-			//System.out.println(pv.toString());
+			
 			return Arrays.asList(choices).indexOf(Choice.valueOf(pv.toString()));
 		} catch (Exception e) {
-		// TODO Auto-generated catch block
-		//e.printStackTrace();
+			//e.printStackTrace();
 			return 0;
 		}   
 	     
