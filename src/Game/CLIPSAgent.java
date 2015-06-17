@@ -120,7 +120,7 @@ public class CLIPSAgent implements Agent {
 		
 		
 		clips.run();
-		printAll();
+		//printAll();
 		String evalStr = "?*decision*";
 		PrimitiveValue pv = clips.eval(evalStr);
 		clips.reset();
@@ -139,5 +139,4 @@ public class CLIPSAgent implements Agent {
 	public String getName() {
 		return "CLIPS Agent "+filename;
 	}
-
 }

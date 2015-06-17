@@ -90,7 +90,7 @@ public class FuzzyAgent implements Agent {
 
 	@Override
 	public String getName() {
-		return "TestFuzzy";
+		return "Fuzzy Agent " + filename;
 	}
 
 }

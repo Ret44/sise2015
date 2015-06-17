@@ -210,7 +210,7 @@ public class Dungeon {
 		}
 	}
 
-	public int play(){
+	public int play(int turnLimit){
 		int i = 0;
 		while(true){
 			for(int x = 0; x < size; ++x){
@@ -249,6 +249,7 @@ public class Dungeon {
 			if(i == agents.length){
 				i = 0;
 				turn++;
+				if(turn == turnLimit) return -1;
 			}
 		}
 	}

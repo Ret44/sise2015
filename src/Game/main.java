@@ -8,23 +8,15 @@ public class main {
 	
 	public static void main(String[] args) {
 		System.load(System.getProperty("user.dir")+"\\CLIPSJNI.dll");
-		
-		//Agent initialization
-		Agent[] agentList = new Agent[1];
-		//agentList[0] = new FuzzyAgent("RomanChomik.flc");
-		agentList[0] = new CLIPSAgent("RomanChomik.clp");
-		
-		//Dungeon generation
-		dungeon = new Dungeon(10, 10, 10, agentList, true);
-		
 
-		System.out.println("Q-Exit | WSAD-Move Agent");
+		Arena arena = new Arena();
+		arena.AddAgent(new FuzzyAgent("RomanChomik.flc"));
+		arena.AddAgent(new CLIPSAgent("RomanChomik.clp"));
+		//arena.AddAgent(new FuzzyAgent("agent_bs.flc"));
+		arena.AddAgent(new CLIPSAgent("agent_bs.CLP"));
 		
-		int res = dungeon.play();
-		
-		System.out.println("Winner: " + res + agentList[res].getName());
-	
-		System.out.println("Game terminated");
+		arena.Fight(40);
+		arena.PrintResults();
 	}
 	
 
