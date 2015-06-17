@@ -53,24 +53,24 @@
 (defrule search
 	(declare (salience 101))
 	(can Search)
-	(not (decision-was-made ?ANY))
+	(not (decision ?))
 	(item ?myItem)
 	(test (< ?myItem 10))
 	=>
-	(assert (decision-was-made Search))
+	(assert (decision Search))
 	(bind ?*decision* Search)
 )
 
 (defrule pick-up
 	(declare (salience 100))
-	(not (decision-was-made ?ANY))
 	(can PickUpItem)
+	(not (decision ?))
 	(item ?myItem)
 	(chamber (index ?ind) (item-level ?chamberItem))
 	(test (> ?chamberItem ?myItem))
 	(test (eq ?ind 0))
 	=>
-	(assert (decision-was-made PickUpItem))
+	(assert (decision PickUpItem))
 	(bind ?*decision* PickUpItem)
 )
 
@@ -110,12 +110,30 @@
 	(assert (IWas MoveLeft))
 )
 
+(defrule amIMighty
+	(item ?myItem)
+	(test (> ?myItem 5))
+	=>
+	(assert (IAmMighty))
+)
 
-(defrule move
-	(declare (salience 10))
-	(initial-fact)
-	(not (decision-was-made ?))
+(defrule follow
+	(IAmMighty)
 	(can-move ?dir1)
+	(not (decision ?))
+	(chamber (index ?ind) (trail ?age ?dir2 ?id))
+	(test (eq ?ind 0))
+	(not (test (eq ?id ?*agentID*)))
+	(test (eq ?dir1 ?dir2))
+	=>
+	(assert (decision ?dir1))
+	(bind ?*decision* ?dir1)
+)
+
+(defrule shouldIStayOrShouldIGo
+	(declare (salience 10))
+	(can-move ?dir1)
+	(not (decision ?))
 	(or 
 		(and 
 			(IWas ?dir2)
@@ -124,6 +142,6 @@
 		(not (IWas ?))
 	)
 	=>
-	(assert (decision-was-made ?dir1))
+	(assert (decision ?dir1))
 	(bind ?*decision* ?dir1)
 )

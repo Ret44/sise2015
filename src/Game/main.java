@@ -20,7 +20,7 @@ public class main {
 		//arena.AddAgent(new FuzzyAgent("agent_bs.flc"));
 		arena.AddAgent(new CLIPSAgent("agent_bs.CLP"));
 		
-		arena.Fight(40);
+		arena.Fight(200);
 		arena.PrintResults();//*/
 	}
 	

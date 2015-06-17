@@ -32,7 +32,7 @@ public class Arena {
 					Agent[] agentList = new Agent[2];
 					agentList[0] = first.agent;
 					agentList[1] = second.agent;
-					Dungeon dungeon = new Dungeon(10, 10, 10, agentList, false);
+					Dungeon dungeon = new Dungeon(5, 10, 10, agentList, false);
 					int res = dungeon.play(100);
 					
 					if(res == -1){
