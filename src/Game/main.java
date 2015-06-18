@@ -19,6 +19,7 @@ public class main {
 		arena.AddAgent(new CLIPSAgent("RomanChomik.clp"));
 		//arena.AddAgent(new FuzzyAgent("agent_bs.flc"));
 		arena.AddAgent(new CLIPSAgent("agent_bs.CLP"));
+		//arena.AddAgent(new CLIPSAgent("GniewomirCiolek.CLP"));
 		
 		arena.Fight(200);
 		arena.PrintResults();//*/
