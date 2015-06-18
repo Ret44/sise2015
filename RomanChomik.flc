@@ -13,6 +13,7 @@ VAR_INPUT
 	lastMove : REAL; (* ostatni kierunek ruchu *)
 END_VAR
 
+
 VAR_OUTPUT
     idea : REAL;
 END_VAR
@@ -24,6 +25,30 @@ FUZZIFY action
     TERM moveDown := 3;
     TERM search := 4;
 	TERM pickUp := 5;
+END_FUZZIFY
+
+FUZZIFY wasHere
+    TERM today := (0, 1) (1, 0);
+    TERM longAgo := (0, 0) (1, 1);
+END_FUZZIFY
+
+FUZZIFY trail
+	TERM none := -1;
+	TERM ours := 0;
+    TERM theirs := 1;
+END_FUZZIFY
+
+FUZZIFY trailAge
+    TERM fresh := (0, 1) (1, 0);
+    TERM old := (0, 0) (1, 1);
+END_FUZZIFY
+
+FUZZIFY trailDirection
+	TERM none := -1;
+    TERM right := 0;
+    TERM up:= 1;
+    TERM left := 2;
+    TERM down := 3;
 END_FUZZIFY
 
 FUZZIFY previousAction
@@ -86,7 +111,27 @@ RULEBLOCK toMoveOrNotToMove
     RULE 7 : IF action IS moveRight AND lastMove IS left
                 THEN idea IS terrible;
     RULE 8 : IF action IS moveDown AND lastMove IS up
-                THEN idea IS terrible;				
+                THEN idea IS terrible;	
+
+				
+    RULE 9 : IF action IS moveUp AND trail IS theirs AND trailDirection IS up AND trailAge IS fresh AND power IS excellent
+                THEN idea IS excellent;	
+    RULE 10 : IF action IS moveDown AND trail IS theirs AND trailDirection IS down AND trailAge IS fresh AND power IS excellent
+                THEN idea IS excellent;	
+    RULE 11 : IF action IS moveLeft AND trail IS theirs AND trailDirection IS left AND trailAge IS fresh AND power IS excellent
+                THEN idea IS excellent;	
+    RULE 12 : IF action IS moveRight AND trail IS theirs AND trailDirection IS right AND trailAge IS fresh AND power IS excellent
+                THEN idea IS excellent;	
+				
+				
+    RULE 13 : IF action IS moveUp AND trail IS theirs AND trailDirection IS up AND trailAge IS fresh AND power IS nonExistent
+                THEN idea IS terrible;	
+    RULE 14 : IF action IS moveDown AND trail IS theirs AND trailDirection IS down AND trailAge IS fresh AND power IS nonExistent
+                THEN idea IS terrible;	
+    RULE 15 : IF action IS moveLeft AND trail IS theirs AND trailDirection IS left AND trailAge IS fresh AND power IS nonExistent
+                THEN idea IS terrible;	
+    RULE 16 : IF action IS moveRight AND trail IS theirs AND trailDirection IS right AND trailAge IS fresh AND power IS nonExistent
+                THEN idea IS terrible;	
 END_RULEBLOCK
 
 RULEBLOCK toSearchOrNotToSearch
@@ -100,15 +145,16 @@ RULEBLOCK toSearchOrNotToSearch
                 THEN idea IS alright;
 	RULE 3 : IF action IS search AND power IS excellent
                 THEN idea IS terrible;
-				
+	RULE 4 : IF wasHere IS today
+				THEN idea IS terrible;
 
-    RULE 4 : IF action IS pickUp AND power IS nonExistent
+    RULE 5 : IF action IS pickUp AND power IS nonExistent
                 THEN idea IS excellent;	
-    RULE 5 : IF action IS pickUp AND power IS average AND itemInRoom IS strong
+    RULE 6 : IF action IS pickUp AND power IS average AND itemInRoom IS strong
                 THEN idea IS alright;
-    RULE 6 : IF action IS pickUp AND power IS average AND itemInRoom IS weak
+    RULE 7 : IF action IS pickUp AND power IS average AND itemInRoom IS weak
                 THEN idea IS terrible;
-	RULE 7 : IF action IS pickUp AND power IS excellent
+	RULE 8 : IF action IS pickUp AND power IS excellent
                 THEN idea IS terrible;
 				
 END_RULEBLOCK
