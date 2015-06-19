@@ -12,6 +12,10 @@ public class Arena {
 		public int wins = 0;
 		public int loses = 0;
 		public int draws = 0;
+		
+		public int GetScore(){
+			return wins * 2 + draws;
+		}
 	}
 	
 	private Vector<AgentStats> contestants = new Vector<Arena.AgentStats>();
@@ -56,7 +60,7 @@ public class Arena {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			for(int i = 0; i < contestants.size(); ++i){
 				AgentStats c = contestants.get(i);
-				writer.write(c.agent.getName());
+				writer.write(c.agent.getName() + ": " + c.GetScore());
 				writer.write('\n');
 				writer.write(c.wins + " wins");
 				writer.write('\n');
@@ -75,7 +79,7 @@ public class Arena {
 	public void PrintResults(){
 		for(int i = 0; i < contestants.size(); ++i){
 			AgentStats c = contestants.get(i);
-			System.out.println(c.agent.getName());
+			System.out.println(c.agent.getName() + ": " + c.GetScore());
 			System.out.println(c.wins + " wins");
 			System.out.println(c.draws + " draws");
 			System.out.println(c.loses + " loses");
