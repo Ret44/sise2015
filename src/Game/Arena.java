@@ -57,6 +57,7 @@ public class Arena {
 	public void SaveResults(String filename){
 		try {
 			File file = new File(filename);
+			file.createNewFile();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			for(int i = 0; i < contestants.size(); ++i){
 				AgentStats c = contestants.get(i);

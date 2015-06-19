@@ -1,6 +1,9 @@
 package Game;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class main {
 
@@ -22,7 +25,11 @@ public class main {
 		arena.AddAgent(new CLIPSAgent("GniewomirCiolek.CLP"));
 		
 		arena.Fight(2);
-		arena.PrintResults();//*/
+		arena.PrintResults();
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+		Date date = new Date();
+		arena.SaveResults(dateFormat.format(date) + ".txt");
 	}
 	
 
