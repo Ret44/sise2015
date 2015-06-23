@@ -122,8 +122,8 @@
 		)
 		
 		(and 
-			(tooManyWays)
-			(lastMove MoveRight)
+			(ways 4)
+			(lastMove MoveDown)
 		)
 
 		(ways 1)
@@ -162,8 +162,8 @@
 			(not (lastMove MoveRight))
 		)
 		(and 
-			(tooManyWays)
-			(lastMove MoveLeft)
+			(ways 4)
+			(lastMove MoveUp)
 		)
 		(ways 1)
 				(and
@@ -193,8 +193,8 @@
 			(not (lastMove MoveDown))
 		)
 		(and 
-			(tooManyWays)
-			(lastMove MoveUp)
+			(ways 4)
+			(lastMove MoveRight)
 		)
 			(ways 1)
 				(and
@@ -224,8 +224,8 @@
 			(not (lastMove MoveUp))
 		)
 		(and 
-			(tooManyWays)
-			(lastMove MoveDown)
+			(ways 4)
+			(lastMove MoveLeft)
 		)
 			(ways 1)
 				(and
