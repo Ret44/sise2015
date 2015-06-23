@@ -1,0 +1,179 @@
+FUNCTION_BLOCK agent
+
+VAR_INPUT
+	action : REAL; (* wyt³umaczone ni¿ej *)
+	previousAction : REAL; (* jw *)
+	power : REAL; (* nasza si³a od 0 - 1 *)
+	trail : REAL; (* -1 nie ma, 0 nasz œlad, 1 czyjœ *)
+	trailDirection : REAL; (* -1 nie ma, inaczej kierunek 0>, 1^, 2<, 3v *)
+	trailAge : REAL; (* 0 œwie¿y, 1 stary *)
+	wasHere : REAL; (* jak dawno temu tu byliœmy, 0 dziœ, 1 dawno temu, 2 nigdy *)
+	turn : REAL; (* która tura *)
+	itemInRoom : REAL; (* poziom przedmiotu w pokoju 0 - 1 *)
+	lastMove : REAL; (* ostatni kierunek ruchu *)
+END_VAR
+
+
+VAR_OUTPUT
+    idea : REAL;
+END_VAR
+
+FUZZIFY action
+    TERM moveUp := 0;
+    TERM moveLeft:= 1;
+    TERM moveRight := 2;
+    TERM moveDown := 3;
+    TERM search := 4;
+	TERM pickUp := 5;
+END_FUZZIFY
+
+FUZZIFY wasHere
+    TERM today := (0, 1) (1, 0);
+    TERM longAgo := (0, 0) (1, 1);
+END_FUZZIFY
+
+FUZZIFY trail
+	TERM none := -1;
+	TERM ours := 0;
+    TERM theirs := 1;
+END_FUZZIFY
+
+FUZZIFY trailAge
+    TERM fresh := (0, 1) (1, 0);
+    TERM old := (0, 0) (1, 1);
+END_FUZZIFY
+
+FUZZIFY trailDirection
+	TERM none := -1;
+    TERM right := 0;
+    TERM up:= 1;
+    TERM left := 2;
+    TERM down := 3;
+END_FUZZIFY
+
+FUZZIFY previousAction
+    TERM moveUp := 0;
+    TERM moveLeft:= 1;
+    TERM moveRight := 2;
+    TERM moveDown := 3;
+    TERM search := 4;
+	TERM pickUp := 5;
+END_FUZZIFY
+
+FUZZIFY lastMove
+    TERM up := 0;
+    TERM left:= 1;
+    TERM right := 2;
+    TERM down := 3;
+END_FUZZIFY
+
+FUZZIFY power
+    TERM nonExistent := (0, 1) (0.2, 0);
+	TERM average := (0.3, 0) (0.8, 1);
+    TERM excellent := (0.9, 0) (1, 1);
+END_FUZZIFY
+
+FUZZIFY itemInRoom
+	TERM weak := (0, 1) (1, 0);
+	TERM average := (0, 0) (0.7, 1);
+	TERM strong := (0.8, 0) (1, 1);
+END_FUZZIFY
+
+DEFUZZIFY idea
+    TERM terrible 	:= trian 0 1 2;
+    TERM poor 		:= trian 1 2 3;
+    TERM alright 	:= trian 2 3 4;
+	TERM good 		:= trian 3 4 5;
+	TERM excellent 	:= trian 4 5 6;
+	
+    METHOD : COG;
+	
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK toMoveOrNotToMove
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1 : IF action IS moveUp
+                THEN idea IS alright;
+    RULE 2 : IF action IS moveLeft 
+                THEN idea IS alright;
+    RULE 3 : IF action IS moveRight 
+                THEN idea IS alright;
+    RULE 4 : IF action IS moveDown 
+                THEN idea IS alright;
+				
+    RULE 5 : IF action IS moveUp AND previousAction IS moveDown
+                THEN idea IS terrible;
+    RULE 6 : IF action IS moveLeft AND previousAction IS moveRight
+                THEN idea IS terrible;
+    RULE 7 : IF action IS moveRight AND previousAction IS moveLeft
+                THEN idea IS terrible;
+    RULE 8 : IF action IS moveDown AND previousAction IS moveUp
+                THEN idea IS terrible;	
+				
+	RULE 9 : IF action IS moveUp AND trail IS theirs AND trailDirection IS up AND power IS nonExistent AND trailAge IS fresh
+                THEN idea IS terrible;
+	RULE 10 : IF action IS moveDown AND trail IS theirs AND trailDirection IS down AND power IS nonExistent AND trailAge IS fresh
+                THEN idea IS terrible;
+	RULE 11 : IF action IS moveRight AND trail IS theirs AND trailDirection IS right AND power IS nonExistent AND trailAge IS fresh
+                THEN idea IS terrible;	
+	RULE 12 : IF action IS moveLeft AND trail IS theirs AND trailDirection IS left AND power IS nonExistent AND trailAge IS fresh
+                THEN idea IS terrible;	
+				
+	RULE 13 : IF action IS moveUp AND trail IS theirs AND trailDirection IS up AND power IS excellent
+                THEN idea IS excellent;
+	RULE 14 : IF action IS moveDown AND trail IS theirs AND trailDirection IS down AND power IS excellent
+                THEN idea IS excellent;
+	RULE 15 : IF action IS moveRight AND trail IS theirs AND trailDirection IS right AND power IS excellent
+                THEN idea IS excellent;	
+	RULE 16 : IF action IS moveLeft AND trail IS theirs AND trailDirection IS left AND power IS excellent
+                THEN idea IS excellent;	
+				
+	RULE 17 : IF action IS moveUp AND trail IS theirs AND trailDirection IS up AND power IS average
+                THEN idea IS alright;
+	RULE 18 : IF action IS moveDown AND trail IS theirs AND trailDirection IS down AND power IS average
+                THEN idea IS alright;
+	RULE 19 : IF action IS moveRight AND trail IS theirs AND trailDirection IS right AND power IS average
+                THEN idea IS alright;	
+	RULE 20 : IF action IS moveLeft AND trail IS theirs AND trailDirection IS left AND power IS average
+                THEN idea IS alright;	
+				
+END_RULEBLOCK
+
+RULEBLOCK toSearchOrNotToSearch
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1 : IF action IS search AND power IS nonExistent
+                THEN idea IS excellent;	
+    RULE 2 : IF action IS search AND power IS average
+                THEN idea IS alright;
+	RULE 3 : IF action IS search AND power IS excellent
+                THEN idea IS terrible;
+				
+
+    RULE 4 : IF action IS pickUp AND power IS nonExistent
+                THEN idea IS excellent;	
+	RULE 6 : IF action IS pickUp AND itemInRoom IS weak
+                THEN idea IS terrible;
+	RULE 7 : IF action IS pickUp AND itemInRoom IS weak AND power IS average
+                THEN idea IS alright;
+	RULE 8 : IF action IS pickUp AND itemInRoom IS NOT strong AND power IS excellent
+                THEN idea IS terrible;
+				
+	RULE 9 : IF action IS search  AND trail IS theirs
+                THEN idea IS terrible;	
+	RULE 10 : IF action IS pickUp  AND trail IS theirs
+                THEN idea IS terrible;	
+				
+	RULE 11 : IF action IS pickUp AND itemInRoom IS strong AND power IS NOT excellent
+                THEN idea IS excellent;
+	RULE 12 : IF action IS pickUp AND power IS excellent
+                THEN idea IS terrible;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

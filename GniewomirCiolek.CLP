@@ -1,32 +1,57 @@
-(defrule TooManyWays
+
+(defglobal ?*ile* = 0)
+(defglobal ?*indeks* = 2)
+
+(defrule WayRight
 	(can-move MoveRight)
+	=>
+	(bind ?*ile* (+ ?*ile* 1))
+)
+(defrule WayLeft
 	(can-move MoveLeft)
+	=>
+	(bind ?*ile* (+ ?*ile* 1))
+)
+(defrule WayUp
 	(can-move MoveUp)
+	=>
+	(bind ?*ile* (+ ?*ile* 1))
+)
+(defrule WayDown
 	(can-move MoveDown)
 	=>
-	(assert (tooManyWays))
+	(bind ?*ile* (+ ?*ile* 1))
 )
-(defrule OnlyTwoMoves
-	(can-move ?lenght)
-	(test(eq  ?lenght 2))
+(defrule HowManyWays
+	(initial-fact)
 	=>
-	(assert (only2Moves))
+	(assert (ways ?*ile*))
+)
+
+(defrule lastChoice
+	(initial-fact)
+	(previous-choice (index 1) (choice ?lastC))
+	=>
+	(assert (lastCC ?lastC))
 )
 (defrule pickItem
 	
-	(not (previous-choice (index 0) (choice PickUp)))
+	
 	(can PickUpItem)
+	(previous-choice (index 1) (choice Search))
+	(not (previous-choice (index 1) (choice PickUp)))
 	(item ?theItem)
-	(chamber (index ?ind) (item-level ?chamberItem))
+	(chamber (index 1) (item-level ?chamberItem) (checked ?isChecked))
+	(not (eq ?isChecked false))
 	(test(> ?chamberItem ?theItem ))
 	=>
 	(assert (decided))
 	(bind ?*decision* PickUpItem)
 )
 (defrule checkItem
-	(not (decided))
-	(not (previous-choice (index 0) (choice Search|PickUp)))
 	(can Search)
+	(not (decided))
+	(not (previous-choice (index 1) (choice Search|PickUp)))
 	(not (room-searched))
 	(not (item-check-done))
 	(item ?theItem)
@@ -35,62 +60,73 @@
 	(assert (decided))
 	(bind ?*decision* Search)
 )
+(defrule lastWasCan
+	(previous-choice (index 1) (choice Search|PickUp))
+	=>
+	(assert (lastCan))
+	(bind ?*indeks* 3)
+)
+(defrule lastWasCan
+	(lastCan)
+	(previous-choice (index 2) (choice Search|PickUp))
+	=>
+	(bind ?*indeks* 4)
+)
+
 (defrule LastMoveLeft
-	
-	(or 
 		(previous-choice (index ?ind) (choice MoveLeft))
-	)
-	(test(< ?ind 2))
+	(test(< ?ind (+ ?*indeks* 1)))
 	=>
 	(assert (lastMove MoveLeft))
 	(assert (lastChecked))
 )
 (defrule LastMoveRight
+	(previous-choice (index ?ind) (choice MoveRight))
 	(not(lastChecked))
-	(or 
-		(previous-choice (index ?ind) (choice MoveRight))
-	)
-	(test(< ?ind 2))
+	(test(< ?ind (+ ?*indeks* 1)))
 	=>
 	(assert (lastMove MoveRight))
 	(assert (lastChecked))
 )
 (defrule LastMoveUp
-	(not(lastChecked))
+	
 	(or 
 		(previous-choice (index ?ind) (choice MoveUp))
 	)
-	(test(< ?ind 2))
+	(not(lastChecked))
+	(test(< ?ind (+ ?*indeks* 1)))
 	=>
 	(assert (lastMove MoveUp))
 	(assert (lastChecked))
 )
 (defrule LastMoveDown
-	(not(lastChecked))
+	
 	(or 
 		(previous-choice (index ?ind) (choice MoveDown))
 	)
-	(test(< ?ind 2))
+	(not(lastChecked))
+	(test(< ?ind (+ ?*indeks* 1)))
 	=>
 	(assert (lastMove MoveDown))
 	(assert (lastChecked))
 )
 
 (defrule moveRight
-	(not (decided))
 	(can-move MoveRight)
+	(not (decided))
+	
 	(or
-
+		(and
+			(ways 2)
+			(not (lastMove MoveLeft))
+		)
+		
 		(and 
 			(tooManyWays)
 			(lastMove MoveRight)
 		)
 
-		(and 
-			(not (can-move MoveLeft))
-			(not (can-move MoveUp))
-			(not (can-move MoveDown))
-		)
+		(ways 1)
 		(and
 			(or
 				(lastMove MoveRight)
@@ -99,6 +135,10 @@
 			(not (can-move MoveUp))
 			(not (lastMove MoveLeft))
 		)
+		(and 
+					(ways 3)
+					(lastMove MoveDown)
+				)
 	)
 	=>
 	(assert (decided))
@@ -115,16 +155,17 @@
 (defrule moveLeft
 	(can-move MoveLeft)
 	(not (decided))
+	
 	(or 
+		(and
+			(ways 2)
+			(not (lastMove MoveRight))
+		)
 		(and 
 			(tooManyWays)
 			(lastMove MoveLeft)
 		)
-		(and 
-			(not (can-move MoveRight))
-			(not (can-move MoveUp))
-			(not (can-move MoveDown))
-		)
+		(ways 1)
 				(and
 					(or
 						(lastMove MoveUp)
@@ -133,7 +174,10 @@
 					(not (can-move MoveDown))
 					(not (lastMove MoveRight))
 				)
-		
+				(and 
+					(ways 3)
+					(lastMove MoveUp)
+				)
 	)
 	=>
 	(assert (decided))
@@ -142,16 +186,17 @@
 (defrule moveUp
 	(can-move MoveUp)
 	(not (decided))
+	
 	(or 
+		(and
+			(ways 2)
+			(not (lastMove MoveDown))
+		)
 		(and 
 			(tooManyWays)
 			(lastMove MoveUp)
 		)
-		(and 
-			(not (can-move MoveRight))
-			(not (can-move MoveLeft))
-			(not (can-move MoveDown))
-		)
+			(ways 1)
 				(and
 					(or
 						(lastMove MoveUp)
@@ -159,6 +204,10 @@
 					)
 					(not (can-move MoveLeft))
 					(not (lastMove MoveDown))
+				)
+				(and 
+					(ways 3)
+					(lastMove MoveRight)
 				)
 		
 	)
@@ -170,15 +219,15 @@
 (can-move MoveDown)
 	(not (decided))
 	(or 
+		(and
+			(ways 2)
+			(not (lastMove MoveUp))
+		)
 		(and 
 			(tooManyWays)
 			(lastMove MoveDown)
 		)
-		(and 
-			(not (can-move MoveRight))
-			(not (can-move MoveLeft))
-			(not (can-move MoveUp))
-		)
+			(ways 1)
 				(and
 					(or
 						(lastMove MoveDown)
@@ -187,6 +236,10 @@
 					(not (can-move MoveRight))
 					(not (lastMove MoveUp))
 				)
+				(and 
+					(ways 3)
+					(lastMove MoveLeft)
+				)
 		
 	)
 	=>
@@ -194,37 +247,6 @@
 	(bind ?*decision* MoveDown)
 )
 
-
-
-(defrule lastOption4
-	(not (decided))
-	(can-move MoveDown)
-	=>
-	(assert (decided))
-	(bind ?*decision* MoveDown)
-)
-
-(defrule lastOption
-	(not (decided))
-	(can-move MoveRight)
-	=>
-	(assert (decided))
-	(bind ?*decision* MoveRight)
-)
-(defrule lastOption2
-	(not (decided))
-	(can-move MoveLeft)
-	=>
-	(assert (decided))
-	(bind ?*decision* MoveLeft)
-)
-(defrule lastOption3
-	(not (decided))
-	(can-move MoveUp)
-	=>
-	(assert (decided))
-	(bind ?*decision* MoveUp)
-)
 
 
 
